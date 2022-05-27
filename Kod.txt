@@ -1,0 +1,55 @@
+section	.text
+    global _start  
+
+;DONT USE
+convert_number_to_string:
+  mov byte [buffer+9],0  
+  lea esi,[buffer+9]
+  mov ebx,10 
+convert_number_to_string_loop:
+  xor edx,edx           
+  div ebx               
+  add dl,'0'            
+  dec esi               
+  mov [esi],dl
+  test eax,eax
+  jnz convert_number_to_string_loop    
+  mov eax,esi
+  ret
+  
+;USE
+print_number:     ;mov eax,value
+    call convert_number_to_string
+    mov	edx, length    
+    mov	ecx, buffer    
+    mov	ebx, 1	    
+    mov	eax, 4	    
+    int	0x80    
+    mov byte[buffer+0],""
+    mov byte[buffer+1],""
+    mov byte[buffer+2],""
+    mov byte[buffer+3],""
+    mov byte[buffer+4],""
+    mov byte[buffer+5],""
+    mov byte[buffer+6],""
+    mov byte[buffer+7],""
+    mov byte[buffer+8],""
+    mov byte[buffer+9],""
+    ret
+ 
+_start:
+    mov eax,123 ;setting value
+    call print_number 
+    
+    mov eax,9
+    call print_number 
+    
+    ;mov eax,9 ;setting value
+    ;call print_number  
+    
+    mov	eax, 1	    ;system call number (sys_exit)
+    int	0x80        ;call kernel
+
+section	.data
+buffer resb 10
+length equ $-buffer;
