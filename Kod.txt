@@ -52,16 +52,35 @@ print_new_line:
     ret
  
 _start:
+    ;result = x + y       
+    ;movzx eax,byte[x]
+    ;movzx ebx,byte[y]
+    ;add eax,ebx
+    ;mov [result],eax
+    
+    ;result = x - y      
+    ;movzx eax,byte[x]
+    ;movzx ebx,byte[y]
+    ;sub eax,ebx
+    ;mov [result],eax
+    
+    ;result = x * y      
+    ;movzx eax,byte[x]
+    ;movzx ebx,byte[y]
+    ;mul ebx
+    ;mov [result],eax
+    
+    ;result = x / y      
+    ;movzx eax,byte[x]
+    ;movzx ebx,byte[y]
+    ;div ebx
+    ;mov [result],eax
     
     movzx eax,byte[result]
     call print_number
     
-    
     mov	eax, 1	   
     int	0x80     
-
-
-
 
 section	.data
 buffer resb 10
@@ -71,9 +90,8 @@ string db "text"
 length equ $-string
 
 
-x db 3
-y db 5
-result db 255
-
+x db 15
+y db 3
+result db 0
 
 
