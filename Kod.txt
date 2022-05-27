@@ -1,5 +1,5 @@
 section	.text
-    global _start  
+global _start 
 
 ;DONT USE
 convert_number_to_string:
@@ -18,9 +18,9 @@ convert_number_to_string_loop:
   ret
   
 ;USE
-print_number:     ;mov eax,value
+print_number:     ;movzx eax,byte[NUMBER]  
     call convert_number_to_string
-    mov	edx, length    
+    mov	edx, 10   
     mov	ecx, buffer    
     mov	ebx, 1	    
     mov	eax, 4	    
@@ -37,19 +37,43 @@ print_number:     ;mov eax,value
     mov byte[buffer+9],""
     ret
  
+print_string:    ;mov ecx,STRING  ;mov edx,LENGTH  (STRING must be declared in .data by STRING db "lol" , LENGTH must be declared in .data by LENGTH equ $-STRING)
+    mov	ebx, 1	    
+    mov	eax, 4	    
+    int	0x80        
+    ret
+    
+print_new_line:
+    mov	ecx,new_line 
+    mov edx,1
+    mov	ebx, 1	    
+    mov	eax, 4	    
+    int	0x80        
+    ret
+ 
 _start:
-    mov eax,123 ;setting value
-    call print_number 
     
-    mov eax,9
-    call print_number 
+    movzx eax,byte[result]
+    call print_number
     
-    ;mov eax,9 ;setting value
-    ;call print_number  
     
-    mov	eax, 1	    ;system call number (sys_exit)
-    int	0x80        ;call kernel
+    mov	eax, 1	   
+    int	0x80     
+
+
+
 
 section	.data
 buffer resb 10
-length equ $-buffer;
+new_line db "",10
+
+string db "text"
+length equ $-string
+
+
+x db 3
+y db 5
+result db 255
+
+
+
