@@ -74,8 +74,10 @@ _start:
     int	0x80   
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;END
 
-section	.data
+section .bss
 buffer resb 10 ;do not use
+
+section	.data
 new_line dd "",10 ;do not use
 string1 dd " * "
 length1 equ $-string1
