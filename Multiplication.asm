@@ -16,7 +16,7 @@ convert_number_to_string_loop:  ;do not use
   mov eax,esi
   ret
   
-print_number:     ;movzx eax,byte[NUMBER] (NUMBER must be declared in .data by NUMBER db VALUE) or mov eax,VALUE
+print_number:     ;mov eax,[NUMBER] (NUMBER must be declared othervise use 'mov eax,VALUE')
     call convert_number_to_string
     mov	edx, 10   
     mov	ecx, buffer    
@@ -35,7 +35,7 @@ print_number:     ;movzx eax,byte[NUMBER] (NUMBER must be declared in .data by N
     mov byte[buffer+9],""
     ret
  
-print_string:    ;mov ecx,STRING  ;mov edx,LENGTH  (STRING must be declared in .data by STRING db "lol" , LENGTH must be declared in .data by LENGTH equ $-STRING)
+print_string:    ;mov ecx,STRING  ;mov edx,LENGTH  (STRING must be declared in .data by STRING dd "TEXT" , LENGTH must be declared in .data by LENGTH equ $-STRING)
     mov	ebx, 1	    
     mov	eax, 4	    
     int	0x80        
@@ -52,22 +52,22 @@ print_new_line:
 _start:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;START
     ;result = x * y   
-    movzx eax,byte[x]
-    movzx ebx,byte[y]
+    mov eax,[x]
+    mov ebx,[y]
     mul ebx
     mov [result],eax
     ;print equation
-    movzx eax,byte[x]
+    mov eax,[x]
     call print_number
     mov ecx,string1
     mov edx,length1
     call print_string 
-    movzx eax,byte[y]
+    mov eax,[y]
     call print_number
     mov ecx,string2
     mov edx,length2
     call print_string 
-    movzx eax,byte[result]
+    mov eax,[result]
     call print_number
     ;exit
     mov	eax, 1	   
@@ -76,11 +76,11 @@ _start:
 
 section	.data
 buffer resb 10 ;do not use
-new_line db "",10 ;do not use
+new_line dd "",10 ;do not use
 string1 dd " * "
 length1 equ $-string1
 string2 dd " = "
 length2 equ $-string2
-x dd 15 ;set value here
-y dd 3  ;set value here
+x dd 1 ;set value here
+y dd 1  ;set value here
 result dd 0

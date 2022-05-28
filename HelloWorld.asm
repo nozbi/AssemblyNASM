@@ -16,7 +16,7 @@ convert_number_to_string_loop:  ;do not use
   mov eax,esi
   ret
   
-print_number:     ;movzx eax,byte[NUMBER] (NUMBER must be declared in .data by NUMBER dd VALUE) or mov eax,VALUE
+print_number:     ;mov eax,[NUMBER] (NUMBER must be declared othervise use 'mov eax,VALUE')
     call convert_number_to_string
     mov	edx, 10   
     mov	ecx, buffer    
@@ -51,15 +51,17 @@ print_new_line:
  
 _start:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;START
+    ;print
     mov ecx,string
     mov edx,length
     call print_string
+    ;exit
     mov	eax, 1	   
     int	0x80   
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;END
 
 section	.data
 buffer resb 10 ;do not use
-new_line db "",10 ;do not use
+new_line dd "",10 ;do not use
 string dd "Hello World!"
 length equ $-string
